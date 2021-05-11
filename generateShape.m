@@ -1,0 +1,9 @@
+function shape = generateShape()
+shape_list = {[1 1 1 1; 0 0 0 0], [0 1 0 0; 0 1 1 1],...
+              [0 0 0 1; 0 1 1 1], [0 1 1 0; 0 1 1 0],...
+              [0 1 1 0; 0 0 1 1], [0 1 1 0; 1 1 0 0],...
+              [0 1 0 0; 1 1 1 0]};
+          
+shape = shape_list{randi(size(shape_list,2))};
+    
+end
