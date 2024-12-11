@@ -9,7 +9,7 @@ newObject = true;
 total_points = 0;
 while ~board.done
     [~,points] = SimulatePlacing(board,[randi(5)-3;randi(9)-5],'Display',true);
-    next_state = get_state(board,2)/7
+    next_state = get_state(board,2)/7;
     total_points = total_points + points;
     fprintf("total points: %d\n",total_points);
 end
@@ -30,14 +30,13 @@ while (counter < 1)
     counter = counter + 1;
     toc
     % policty improvement using 1 step dynamic programming
-    
 end
 
 %% Q Learning Testing.
 board_width = 10;
 board_height = 20;
-state_version = 5;
-beta = 0.005;
+state_version = 6;
+beta = 0.005; % Exploration parameter
 useI = false;
 switch(state_version)
     case 2
@@ -64,10 +63,13 @@ switch(state_version)
     case 5 
         num_states = (2^(board_width*2))*7;
         Q = zeros(num_states,44);
+    case 6 
+        num_states = (4^(board_width))*7;
+        Q = zeros(num_states,44);
 end
 %%
 % tic
-max_minutes = 10;
+max_minutes = 5;
 [Q,u_opt,num_apps] = QLearning(num_states,44,'Time',max_minutes*60,...
     'StateVersion',state_version,'Q',Q,...
     'useI',useI,'Board_Size',[board_height,board_width],'Beta',beta);
@@ -82,8 +84,8 @@ toc
 % board_width = 10;
 % board_height = 20;
 total_points = 0;
-num_examples = 1000;
-display_board = false;
+num_examples = 1;
+display_board = true;
 for i = 1:num_examples
     board = TetrisBoard(board_height,board_width,useI);
     while ~board.done && (board.total_points < inf)
@@ -103,12 +105,12 @@ fprintf("Average Points: %0.2f\n",total_points);
 %% Q Learning With Back Prop
 
 tic
-max_minutes = 10*60;
+max_minutes = 30;
 [Q,u_opt,num_apps] = QLearningBackProp(num_states,44,'Time',max_minutes*60,...
     'StateVersion',state_version,'Q',Q,'MaxPoints',10000,...
     'Board_Size',[board_height,board_width],'Beta',beta);
 toc
-save
+% save
 
 %% Me being awesome
 total_points = 0;
