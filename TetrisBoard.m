@@ -225,14 +225,16 @@ classdef TetrisBoard < handle
             for row = size(obj.board,1):-1:1
                 if size(find(obj.board(row,:)),2) == size(obj.board,2)
                     obj.board(row,:) = 0;
-                    emptied = [emptied,row];
+                    emptied = [row,emptied];
                     stepRowsCleared = stepRowsCleared + 1;
                 end
             end
             obj.rowsCleared = obj.rowsCleared + stepRowsCleared;
 
             for row = emptied
-                obj.board(2:emptied,:) = obj.board(1:emptied-1,:);
+                % this before had 'emptied' instead of 'row' inside the for
+                % loop. 
+                obj.board(2:row,:) = obj.board(1:row-1,:);
             end
             % How many points do we get
             switch (stepRowsCleared)
