@@ -80,6 +80,7 @@ else
             end
             % just so that find will return 3 for the row if the column is filled
             smallBoard = flip(smallBoard,1);
+            shape = board.shape.id*4^10;
             state = 0;
             for i = 1:size(board.board,2)
                 % elems will either be empty (0) or a value between 1-3
@@ -88,6 +89,7 @@ else
                     state = state + (elems*4^(i-1));
                 end
             end
+            state = state+shape;
         otherwise
             state = 0;
     end

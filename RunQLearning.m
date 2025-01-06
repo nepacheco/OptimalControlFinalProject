@@ -1,4 +1,4 @@
-
+clc;clear;close all;
 board_width = 10;
 board_height = 20;
 state_version = 6;
@@ -33,13 +33,13 @@ switch(state_version)
         num_states = (4^(board_width))*7;
         Q = zeros(num_states,44);
 end
-
-load("QLearningFinal.mat");
+%%
+% load("QLearningFinal.mat");
 %%
 tic
-max_minutes = 24*60;
+max_minutes = 3*24*60;
 [Q,u_opt,num_apps] = QLearningBackProp(num_states,44,'Time',max_minutes*60,...
     'StateVersion',state_version,'Q',Q,'MaxPoints',10000,...
-    'Board_Size',[board_height,board_width],'Beta',beta);
+    'Board_Size',[board_height,board_width],'Beta',beta,'N',num_apps);
 toc
 save("QLearningFinal.mat",'-v7.3');
